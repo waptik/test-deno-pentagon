@@ -60,6 +60,15 @@ async function doBookingReference() {
 
   const references = await pentagon.bookingReference.findMany({});
   console.log({ references });
+
+  // fails with 'findMany' to when using the where clause with an 'index' field
+  const findRef = await pentagon.bookingReference.findFirst({
+    where: {
+      meetingId: bookingReference.meetingId,
+    },
+  });
+
+  console.log({ findRef });
 }
 
 async function doAgreedTerms() {

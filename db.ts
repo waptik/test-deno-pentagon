@@ -77,7 +77,7 @@ export const BookingReference = z
       .default(() => generateUUID()),
     type: z.string().min(1),
     bookingId: z.string().uuid().optional(),
-    meetingId: z.string().uuid().optional(),
+    meetingId: z.string().uuid().describe("index").optional(),
     meetingUrl: z.string().url().optional(),
     meetingPassword: z.string().optional(),
   })
