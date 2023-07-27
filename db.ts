@@ -1,5 +1,7 @@
-import { createPentagon } from "https://raw.githubusercontent.com/skoshx/pentagon/6b9f2627685b0729d5dcf7103c19f690ff4554ec/mod.ts";
-// "https://deno.land/x/pentagon@v0.1.2/mod.ts";
+import {
+  createPentagon,
+  //  "https://raw.githubusercontent.com/skoshx/pentagon/6b9f2627685b0729d5dcf7103c19f690ff4554ec/mod.ts";
+} from "https://deno.land/x/pentagon@v0.1.3/mod.ts";
 import { z } from "https://deno.land/x/zod@v3.21.4/mod.ts";
 
 export const generateUUID = () => crypto.randomUUID();
