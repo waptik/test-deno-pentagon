@@ -21,6 +21,16 @@ const WithDefautTimestamps = z.object({
     .nullable(),
 });
 
+
+
+const WithDefaultId = z.object({
+  id: z
+    .string()
+    .uuid()
+    .describe("primary")
+    .default(() => generateUUID()),
+});
+
 export const User = z
   .object({
     id: z.number().describe("primary"),
@@ -33,34 +43,27 @@ export const User = z
   })
   .merge(WithDefautTimestamps);
 
-export const Meeting = z
-  .object({
-    id: z
-      .string()
-      .uuid()
-      .describe("primary")
-      .default(() => generateUUID()),
-    title: z.string(),
-    description: z.string(),
-    slug: z
-      .string()
-      .describe("unique")
-      .min(1)
-      .default(() => generateUUID()),
-    duration: z.number().min(1),
-    price: z.number().min(5),
-    requiresConfirmation: z.boolean().default(false).optional(),
-    hidden: z.boolean().default(false).optional(),
-    metadata: z
-      .object({
-        objective: z.string().optional(),
-      })
-      .nullable()
-      .default(null),
-    // relations
-    userId: z.number(),
-  })
-  .merge(WithDefautTimestamps);
+export const Meeting = WithDefaultId.extend({
+  title: z.string(),
+  description: z.string(),
+  slug: z
+    .string()
+    .describe("unique")
+    .min(1)
+    .default(() => generateUUID()),
+  duration: z.number().min(1),
+  price: z.number().min(5),
+  requiresConfirmation: z.boolean().default(false).optional(),
+  hidden: z.boolean().default(false).optional(),
+  metadata: z
+    .object({
+      objective: z.string().optional(),
+    })
+    .nullable()
+    .default(null),
+  // relations
+  userId: z.number(),
+}).merge(WithDefautTimestamps);
 
 export const AgreedTerms = z
   .object({
@@ -68,20 +71,13 @@ export const AgreedTerms = z
   })
   .merge(WithDefautTimestamps);
 
-export const BookingReference = z
-  .object({
-    id: z
-      .string()
-      .uuid()
-      .describe("primary")
-      .default(() => generateUUID()),
-    type: z.string().min(1),
-    bookingId: z.string().uuid().optional(),
-    meetingId: z.string().uuid().describe("index").optional(),
-    meetingUrl: z.string().url().optional(),
-    meetingPassword: z.string().optional(),
-  })
-  .merge(WithDefautTimestamps);
+export const BookingReference = WithDefaultId.extend({
+  type: z.string().min(1),
+  bookingId: z.string().uuid().optional(),
+  meetingId: z.string().uuid().describe("index").optional(),
+  meetingUrl: z.string().url().optional(),
+  meetingPassword: z.string().optional(),
+}).merge(WithDefautTimestamps);
 
 //------------------------------------- Models end -------------------------------------//
 

@@ -1,10 +1,13 @@
 import { kv, pentagon } from "./db.ts";
 
-async function getAllKvData() {
+async function getAllKvData(show: boolean) {
   console.log("calling getAllKvData");
-  const it = kv.list({ prefix: [] });
-  for await (const { key, value } of it) {
-    console.log("key=value", { key, value });
+
+  if (show) {
+    const it = kv.list({ prefix: [] });
+    for await (const { key, value } of it) {
+      console.log("key=value", { key, value });
+    }
   }
 }
 
@@ -87,8 +90,9 @@ async function doAgreedTerms() {
 }
 
 async function main() {
+  const showAll = false;
   await Promise.all([
-    getAllKvData(),
+    getAllKvData(showAll),
     doMeetings(),
     doBookingReference(),
     doAgreedTerms(),
